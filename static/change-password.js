@@ -43,7 +43,8 @@ document.getElementById('passwordform').onsubmit = async function(e) {
     }
 
     try {
-        await doit(group, user, old1, document.getElementById('new').value);
+        await setPassword(group, user, document.getElementById('new').value,
+                          old1);
         document.getElementById('old1').value = '';
         document.getElementById('old2').value = '';
         document.getElementById('new').value = '';
@@ -52,26 +53,6 @@ document.getElementById('passwordform').onsubmit = async function(e) {
             'Password successfully changed.';
     } catch(e) {
         displayError(e.toString());
-    }
-}
-
-async function doit(group, user, old, pw) {
-    let creds = btoa(user + ":" + old);
-    let r = await fetch(`/galene-api/0/.groups/${group}/.users/${user}/.password`,
-                        {
-                            method: 'POST',
-                            body: pw,
-                            credentials: 'omit',
-                            headers: {
-                                'Authorization': `Basic ${creds}`
-                            }
-                        });
-    if(!r.ok) {
-        if(r.status === 401)
-            throw new Error('Permission denied');
-        else
-            throw new Error(`The server said: ${r.status} ${r.statusText}`);
-        return;
     }
 }
 

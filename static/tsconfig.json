@@ -14,6 +14,9 @@
     },
     "files": [
         "protocol.js",
-        "galene.js"
+        "galene.js",
+        "management.js",
+        "manage-groups.js",
+        "manage-edit-group.js"
     ]
 }
